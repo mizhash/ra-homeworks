@@ -1,15 +1,15 @@
 'use strict';
 
+const messageHistoryTypes = {
+    message: Message,
+    response: Response,
+    typing: Typing
+};
+
 function MessageHistory({list}) {
     if (!list || !Array.isArray(list) || list.length === 0) {
         return null;
     }
-
-    const messageHistoryTypes = {
-        message: Message,
-        response: Response,
-        typing: Typing
-    };
 
     const messages = list.map(item => {
         const MessageHistoryItem = messageHistoryTypes[item.type];

@@ -35,9 +35,26 @@ Listing.defaultProps = {
     items: []
 };
 
+function getFullPrice(currency_code, price = 0) {
+    switch(currency_code) {
+        case 'USD':
+            return `$${price}`;
+        case 'EUR':
+            return `€${price}`;
+    }
+    return `${price} ${currency_code}`;
+}
+
+function getQuantityLevel(quantity) {
+    if (quantity > 20) {
+        return 'high';
+    } else if (quantity > 10) {
+        return 'medium';
+    }
+    return 'low';
+}
+
 function ListingItem({item}) {
-    const currency_prefix = item.currency_code === 'USD' ? '$' : (item.currency_code === 'EUR' ? '€' : '');
-    const currency_suffix = item.currency_code !== 'USD' && item.currency_code !== 'EUR' ? item.currency_code : '';
     return (
         <div className="item">
             <div className="item-image">
@@ -47,8 +64,8 @@ function ListingItem({item}) {
             </div>
             <div className="item-details">
                 <p className="item-title">{item.title.length > 50 ? `${item.title.slice(0, 50)}...` : item.title}</p>
-                <p className="item-price">{`${currency_prefix}${item.price} ${currency_suffix}`}</p>
-                <p className={`item-quantity level-${item.quantity <= 10 ? 'low' : (item.quantity <= 20 ? 'medium' : 'high')}`}>{item.quantity} left</p>
+                <p className="item-price">{getFullPrice(item.currency_code, item.price)}</p>
+                <p className={`item-quantity level-${getQuantityLevel(item.quantity)}`}>{item.quantity} left</p>
             </div>
         </div>
     );
