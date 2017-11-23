@@ -11,10 +11,12 @@ function MessageHistory({list}) {
         return null;
     }
 
-    const messages = list.map(item => {
-        const MessageHistoryItem = messageHistoryTypes[item.type];
-        return <MessageHistoryItem key={item.id} from={item.from} message={item} />
-    });
+    const messages = list
+        .filter(item => item.type in messageHistoryTypes)
+        .map(item => {
+            const MessageHistoryItem = messageHistoryTypes[item.type];
+            return <MessageHistoryItem key={item.id} from={item.from} message={item} />
+        });
 
     return (
         <ul>

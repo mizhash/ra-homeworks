@@ -35,14 +35,19 @@ Listing.defaultProps = {
     items: []
 };
 
-function getFullPrice(currency_code, price = 0) {
-    switch(currency_code) {
-        case 'USD':
-            return `$${price}`;
-        case 'EUR':
-            return `€${price}`;
+const currencySymbols = {
+    USD: '$',
+    EUR: '€'
+};
+
+function getFullPrice(currencyCode, price = 0) {
+    if (currencyCode in currencySymbols) {
+        price = `${currencySymbols[currencyCode]}${price}`;
+    } else {
+        price = `${price} ${currencyCode}`
     }
-    return `${price} ${currency_code}`;
+
+    return price;
 }
 
 function getQuantityLevel(quantity) {
